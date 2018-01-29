@@ -2,10 +2,10 @@
 window.onload = function(){
 	var canvas = document.getElementById('theCanvas');
 	var ctx = canvas.getContext('2d');
-	var messages = ["Hello.", "Let's experiment.", "Click me to continue."];
+	var messages = ["Hello.", "Let's experiment.", "Try using the sliders below.", "Click me to continue."];
 	var messageIndex = 0;
 	var startTextTime = 0;
-	var textLoadTime = 800;
+	var textLoadTime = 1000;
 	ctx.font = "30px Times New Roman";
 	ctx.fillStyle = "rgba(0,0,0,0)";
 	ctx.textAlign = "center";
