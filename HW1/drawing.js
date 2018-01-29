@@ -5,9 +5,9 @@ window.onload = function(){
 	var messages = ["Hello.", "Let's experiment.", "Try using the sliders below.", "Click me to continue."];
 	var messageIndex = 0;
 	var startTextTime = 0;
-	var textLoadTime = 1000;
+	var textLoadTime = 1400;
 	ctx.font = "30px Times New Roman";
-	ctx.fillStyle = "rgba(0,0,0,0)";
+	ctx.fillStyle = "rgba(255,255,255,0)";
 	ctx.textAlign = "center";
 
 	function dispText(timestamp){
@@ -27,7 +27,7 @@ window.onload = function(){
 			transparency = 1- transparency; // opposite of fade in transparency 0->1->0
 		}
 		ctx.clearRect(0,0,canvas.width,canvas.height);	// clear canvas
-		ctx.fillStyle = "rgba(0,0,0," +transparency+ ")";	// fill style with proper transparency
+		ctx.fillStyle = "rgba(255,255,255," +transparency+ ")";	// fill style with proper transparency
 		ctx.fillText(messages[messageIndex], canvas.width/2, canvas.height/2);	// center text
 		requestAnimationFrame(function(timestamp){	// go to next frame
 			dispText(timestamp);
@@ -57,7 +57,7 @@ function start(){
 	var startTime = 0;
 	var loadTime = speedSlider.max - speedSlider.value;	//ms
 
-	var color = "0,0,0";	// black?
+	var color = "255,255,255";	// black?
 	setColor(1.0);
 	canvas.style.cursor='default';
 
