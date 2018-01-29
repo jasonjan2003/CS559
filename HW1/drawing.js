@@ -38,10 +38,10 @@ window.onload = function(){
 	// first frame in displaying message
 	requestAnimationFrame(function(timestamp){
 		startTextTime = timestamp;
-		dispText(timestamp)
+		dispText(timestamp);
 	});
 	
-}
+};
 
 function start(){
 
@@ -63,7 +63,7 @@ function start(){
 
 	function getRandomInt(min,max) {
   		return Math.floor(Math.random() * Math.floor(max-min)) + Math.floor(min);
-	};
+	}
 
 	function setColor(transparency){
 		ctx.strokeStyle = "rgba(" + color + ", " + transparency + ")";
@@ -79,7 +79,7 @@ function start(){
 				x: getRandomInt(0,size.x),
 				y: getRandomInt(0,size.y),
 				r: getRandomInt(0.05*Math.min(size.x, size.y),0.4*Math.max(size.x, size.y))
-		}
+		};
 		items.push(newCircle);
 		return;
 	}
@@ -148,12 +148,12 @@ function start(){
 	
 	numSlider.oninput = function() {
 		maxItems = this.value;
-	}
+	};
 	speedSlider.oninput = function() {
 		loadTime = this.max-this.value;
-	}
+	};
 	widthSlider.oninput = function() {
 		setWidth(this.value/1000.0);
-	}
+	};
 
-};
+}
