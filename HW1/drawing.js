@@ -48,7 +48,10 @@ function start(){
 	var numSlider = document.getElementById('numItems');
 	var speedSlider = document.getElementById('speed');
 	var widthSlider = document.getElementById('lineWidth');
+	var sizeSlider = document.getElementById('sizeSlider');
+		sizeSlider.max = Math.min(document.documentElement.clientWidth * 0.9, document.documentElement.clientHeight * 0.7);
 
+	var wrapper = document.getElementsByClassName('wrapper')[0];
 	var canvas = document.getElementById('theCanvas');
 	var size = {y: canvas.height, x: canvas.width};
 	var ctx = canvas.getContext('2d');
@@ -154,6 +157,11 @@ function start(){
 	};
 	widthSlider.oninput = function() {
 		setWidth(this.value/1000.0);
+	};
+	sizeSlider.oninput = function() {
+		theCanvas.height = this.value;
+		theCanvas.width = this.value;
+		wrapper.style.marginTop = 0.5 * (document.documentElement.clientHeight - this.value);
 	};
 
 }
