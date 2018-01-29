@@ -1,0 +1,26 @@
+<html>
+<head>
+	<script src="./drawing.js"></script>
+	<style type="text/css">
+		div{
+			text-align: center;
+			vertical-align: middle;
+			margin-top:15%;
+		}
+		#theCanvas{
+			//display: block;
+			height: 500px;
+   			width: 500px;
+    		border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<canvas id="theCanvas" width=500 height=500></canvas><br>
+		<input type="range" min="2" max="50" value="10" class="slider" id="numItems"><br>
+		<input type="range" min="10" max="1500" value="500" class="slider" id="speed"><br>
+		<input type="range" min="500" max="3000" value="1700" class="slider" id="lineWidth">
+	</div>	
+</body>
+</html>
