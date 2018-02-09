@@ -65,7 +65,7 @@ function start(){
 	var coefrest = 0.9;
 	const DIRECTION_CONSTANT = {X:0, Y:1};
 	var path_history = [];
-	var is_at_edge = {x:1, y:1};
+	var is_at_edge = {x:0, y:0};
 
 	var color = "255,255,255";
 	setColor("255,255,255");
@@ -94,14 +94,22 @@ function start(){
 
 		//newVelocity
 		velocity = {
-			x: acc.x * dt * is_at_edge.x + velocity.x,
-			y: acc.y * dt * is_at_edge.y + velocity.y
+			x: acc.x * dt  + velocity.x,
+			y: acc.y * dt  + velocity.y
 		}
 
 
 		var old_position = [ball.x, ball.y];
-		ball.x = 0.5 * acc.x * is_at_edge.x * Math.pow(dt,2) + velocity.x * dt + ball.x;
-		ball.y = 0.5 * acc.y * is_at_edge.y * Math.pow(dt,2) + velocity.y * dt + ball.y;
+		if( is_at_edge.x > 0 && acc.x > 0){
+			ball.x = 0 + velocity.x * dt + ball.x;
+		}else{
+			ball.x = 0.5 * acc.x * Math.pow(dt,2) + velocity.x * dt + ball.x;
+		}
+		if( is_at_edge.y> 0 && acc.y > 0){
+			ball.y = 0 + velocity.y * dt + ball.y;
+		}else{
+			ball.y = 0.5 * acc.y * Math.pow(dt,2) + velocity.y * dt + ball.y;
+		}
 		ball.x = Math.min(size.x-ball.r, Math.max(ball.x, ball.r));	// ensure within stage
 		ball.y = Math.min(size.y-ball.r, Math.max(ball.y, ball.r));	// ensure within stage
 		var new_position = [ball.x, ball.y];
@@ -196,17 +204,23 @@ function start(){
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 
 		// determine if contact edge
-		if( ball.x >= (size.x-ball.r) || ball.x <= ball.r){
+		if( ball.x >= (size.x-ball.r)){
 			collisionPhysics(DIRECTION_CONSTANT.X);
-			is_at_edge.x = 0;
-		}else{
 			is_at_edge.x = 1;
-		}
-		if( ball.y >= size.y-ball.r || ball.y <= ball.r){
-			collisionPhysics(DIRECTION_CONSTANT.Y);
-			is_at_edge.y = 0;
+		}else if( ball.x <= ball.r ){
+			collisionPhysics(DIRECTION_CONSTANT.X);
+			is_at_edge.x = -1;
 		}else{
+			is_at_edge.x = 0;
+		}
+		if( ball.y >= size.y-ball.r ){
+			collisionPhysics(DIRECTION_CONSTANT.Y);
 			is_at_edge.y = 1;
+		}else if( ball.y <= ball.r){
+			collisionPhysics(DIRECTION_CONSTANT.Y);
+			is_at_edge.y = -1;
+		}else{
+			is_at_edge.y = 0;
 		}
 
 		var dt = (timestamp - startTime)/1000.0;
