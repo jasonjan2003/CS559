@@ -59,7 +59,7 @@ function start(){
 	var ball = {x: 0, y: 0, r: 1};
 		const ball_init = {x: 45, y: 45, r: 40};
 	var velocity = {x:0, y:0};
-		const velocity_init = {x:50, y:0};
+		const velocity_init = {x:40, y:0};
 		var max_speed = 0;
 	var acc = {x: 0, y: 9.8*15};
 	var coefrest = 0.9;
