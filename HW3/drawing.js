@@ -2,18 +2,25 @@
 window.onload = function(){
 	
 
-	var gravityXlider = document.getElementById('gravity_x');
-	var gravityYlider = document.getElementById('gravity_y');
-	var restitutionSlider = document.getElementById('restitution');
+	var zoomSlider = document.getElementById('zoom');
+	var speedXSlider = document.getElementById('speedX');
+	var speedYSlider = document.getElementById('speedY');
+	var speedZSlider = document.getElementById('speedZ');
+	//var viewXSlider = document.getElementById('viewX');
+	//var viewYSlider = document.getElementById('viewY');
+	//var viewZSlider = document.getElementById('viewZ');
 
 	var wrapper = document.getElementsByClassName('wrapper')[0];
 	var canvas = document.getElementById('theCanvas');
 	var size = {y: canvas.height, x: canvas.width};
 	var ctx = canvas.getContext('2d');
-	var radius = 200;
+	var radius = 350;
 	var sphere = 0;
 	var rotation = new Rotation(0,0,0);
+	var viewRotation = new Rotation(0,0,0);
+	var rotSpeed = {x: 1, y: 1, z:1 };
 	var m4 = twgl.m4;
+	var zoom = 1;
 
 	function radians(deg){
 		return deg / 180.0 * Math.PI;
@@ -93,12 +100,20 @@ window.onload = function(){
 
 	}
 
-	function drawPoint(point){
+	function drawPoint(point, zoom, rotation){
+
+		//var rotX = m4.rotationX(rotation.x);
+		//var rotY = m4.rotationY(rotation.y);
+		//var rotZ = m4.rotationZ(rotation.z);
+		//var rot = m4.multiply(m4.multiply(rotX, rotY),rotZ);
+		//point.setArray(m4.transformPoint(rot,point.getArray()));
+
 		ctx.save();
 		ctx.beginPath();
 		ctx.fillStyle = point.z <= 0 ? "rgb(255,255,255)" : "rgb(0,200,0)";
-		var dot_radius = point.z <= 0 ? 3 : 1;
-		ctx.arc(point.x, point.y, dot_radius, 0, radians(360));
+		zoom = (typeof(zoom) == undefined) ? 1.0 : zoom;
+		var dot_radius = point.z <= 0 ? 2 : 0.5;
+		ctx.arc(point.x * zoom, point.y * zoom, dot_radius * zoom, 0, radians(360));
 		ctx.fill();
 		ctx.restore();
 		ctx.closePath();
@@ -121,17 +136,16 @@ window.onload = function(){
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.save();
 		ctx.translate(size.x/2, size.y/2);
+		var dt = timestamp - startTime;
 
 		for( var pointIndex = 0; pointIndex < sphere.numPoints; pointIndex++){
-			
-			//console.log(sphere.points[pointIndex]);
+
+			rotation.x = radians(rotSpeed.x * dt / 1000.0);
+			rotation.y = radians(rotSpeed.y * dt / 1000.0);
+			rotation.z = radians(rotSpeed.z * dt / 1000.0);
 
 			sphere.points[pointIndex].setArray(rotate(sphere.points[pointIndex], rotation));
-			rotation.x += radians(0.0000001);
-			rotation.y += radians(0.0000004);
-			rotation.y += radians(-0.000003);
-
-			drawPoint(sphere.points[pointIndex]);
+			drawPoint(sphere.points[pointIndex], zoom);
 		}
 		ctx.restore();
 		startTime = timestamp;
@@ -146,16 +160,27 @@ window.onload = function(){
 		updateFrame(timestamp);
 	});
 	
-	gravityXlider.oninput = function() {
-		acc.x = this.value;
+	zoomSlider.oninput = function() {
+		zoom = this.value / 100.0;
 	};
-	gravityYlider.oninput = function() {
-		acc.y = this.value;
+	speedXSlider.oninput = function() {
+		rotSpeed.x = this.value / 10.0;
 	};
-	restitutionSlider.oninput = function() {
-		coefrest = this.value/1000.0;
-		console.log(this.value/1000.0);
+	speedYSlider.oninput = function() {
+		rotSpeed.y = this.value / 10.0;
 	};
+	speedZSlider.oninput = function() {
+		rotSpeed.z = this.value / 10.0;
+	};
+	//viewXSlider.oninput = function() {
+	//	viewRotation.x = radians(this.value);
+	//};
+	//viewYSlider.oninput = function() {
+	//	viewRotation.y = radians(this.value);
+	//};
+	//viewZSlider.oninput = function() {
+	//	viewRotation.z = radians(this.value);
+	//};
 
 
 }
