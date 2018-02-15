@@ -1,0 +1,36 @@
+<html>
+<head>
+	<script src="http://graphics.cs.wisc.edu/JS/twgl-full.min.js"></script>
+	<script src="./drawing.js"></script>
+	<style type="text/css">
+		body{
+			background-color: #000;
+			color: white;
+		}
+		div{
+			text-align: center;
+			vertical-align: middle;
+			margin-top:5%;
+		}
+		#theCanvas{
+			//display: block;
+			background-color: #000;
+			//height: 800px;
+   			//width: 800px;
+    		border: 1.5px solid #222;
+    		margin-bottom: 10px;
+		}
+		#sizeSlider{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<canvas id="theCanvas" width=800 height=800></canvas><br>
+		g<sub>x</sub><input type="range" min="-400" max="400" value="0" class="slider" id="gravity_x"><br>
+		g<sub>y</sub><input type="range" min="-400" max="400" value="147" class="slider" id="gravity_y"><br>
+		&#949; <input type="range" min="0" max="1000" value="800" class="slider" id="restitution"><br>
+	</div>	
+</body>
+</html>
