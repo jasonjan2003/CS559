@@ -6,9 +6,9 @@ window.onload = function(){
 	var speedXSlider = document.getElementById('speedX');
 	var speedYSlider = document.getElementById('speedY');
 	var speedZSlider = document.getElementById('speedZ');
-	//var viewXSlider = document.getElementById('viewX');
-	//var viewYSlider = document.getElementById('viewY');
-	//var viewZSlider = document.getElementById('viewZ');
+	var viewXSlider = document.getElementById('viewX');
+	var viewYSlider = document.getElementById('viewY');
+	var viewZSlider = document.getElementById('viewZ');
 
 	var wrapper = document.getElementsByClassName('wrapper')[0];
 	var canvas = document.getElementById('theCanvas');
@@ -18,7 +18,8 @@ window.onload = function(){
 	var sphere = 0;
 	var rotation = new Rotation(0,0,0);
 	var viewRotation = new Rotation(0,0,0);
-	var rotSpeed = {x: 1, y: 1, z:1 };
+	//var rotSpeed = {x: 1, y: 1, z:1 };
+	var rotSpeed = {x:0 , y:0 , z:0 };
 	var m4 = twgl.m4;
 	var zoom = 1;
 
@@ -39,6 +40,11 @@ window.onload = function(){
 		// for compatibility with m4
 		this.getArray = function(){
 			return [this.x,this.y,this.z];
+		}
+
+		// find delta rotation
+		this.deltaRotation = function(rotation){
+			return new Rotation(rotation.x - this.x, rotation.y - this.y, rotation.z - this.z);
 		}
 	}
 
@@ -131,6 +137,11 @@ window.onload = function(){
 		var rot = m4.multiply(m4.multiply(rotX, rotY),rotZ);
 		return m4.transformPoint(rot,p.getArray());
 	}
+	function rotateAll(rotation){
+		for( var pointIndex = 0; pointIndex < sphere.numPoints; pointIndex++){
+			sphere.points[pointIndex].setArray(rotate(sphere.points[pointIndex],rotation));
+		}
+	}
 	function updateFrame(timestamp) {
 		// clear canvas
 		ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -172,15 +183,21 @@ window.onload = function(){
 	speedZSlider.oninput = function() {
 		rotSpeed.z = this.value / 10.0;
 	};
-	//viewXSlider.oninput = function() {
-	//	viewRotation.x = radians(this.value);
-	//};
-	//viewYSlider.oninput = function() {
-	//	viewRotation.y = radians(this.value);
-	//};
-	//viewZSlider.oninput = function() {
-	//	viewRotation.z = radians(this.value);
-	//};
+	viewXSlider.oninput = function() {
+		var original_vr = Object.assign({}, viewRotation);
+		viewRotation.x = radians(this.value);
+		rotateAll(viewRotation.deltaRotation(original_vr));
+	};
+	viewYSlider.oninput = function() {
+		var original_vr = Object.assign({}, viewRotation);
+		viewRotation.y = radians(this.value);
+		rotateAll(viewRotation.deltaRotation(original_vr));
+	};
+	viewZSlider.oninput = function() {
+		var original_vr = Object.assign({}, viewRotation);
+		viewRotation.z = radians(this.value);
+		rotateAll(viewRotation.deltaRotation(original_vr));
+	};
 
 
 }
