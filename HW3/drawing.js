@@ -18,8 +18,7 @@ window.onload = function(){
 	var sphere = 0;
 	var rotation = new Rotation(0,0,0);
 	var viewRotation = new Rotation(0,0,0);
-	//var rotSpeed = {x: 1, y: 1, z:1 };
-	var rotSpeed = {x:0 , y:0 , z:0 };
+	var rotSpeed = {x: 1, y: 1, z:1 };
 	var m4 = twgl.m4;
 	var zoom = 1;
 
